@@ -513,15 +513,47 @@ ggplot(share_aug,
 when share of women is 0. Predicted Median equals 56093 - 30670 share of
 women. b.The residual plot is used to assess whether a linear model is
 appropriate. If the residuals are randomly distributed around zero
-without a clear pattern, the linear model is reasonably appropriate. Any
-systematic pattern would suggest that the model does not fully capture
-the relationship.</p>
+without a clear pattern.</p>
 </div>
 <div id="exercise-4-consider-a-categorical-variable-instead" class="section level1">
 <h1>Exercise 4: Consider a categorical variable instead</h1>
-<pre class="r"><code>#your code here</code></pre>
-<p><em>Your explanation</em></p>
-<hr />
+<pre class="r"><code>college_grad_df &lt;- college_grad_df %&gt;%
+  mutate(
+    engineering = if_else(
+      major_category == &quot;Engineering&quot;,
+      &quot;Engineering&quot;,
+      &quot;Other&quot;
+    )
+  )
+engineering_fit &lt;- lm(
+  median ~ engineering,
+  data = college_grad_df
+)
+summary(engineering_fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = median ~ engineering, data = college_grad_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -17383  -4681  -1681   3319  52617 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         57383       1574   36.46   &lt;2e-16 ***
+## engineeringOther   -20702       1725  -12.00   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 8476 on 171 degrees of freedom
+## Multiple R-squared:  0.4571, Adjusted R-squared:  0.454 
+## F-statistic:   144 on 1 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>levels(factor(college_grad_df$engineering))</code></pre>
+<pre><code>## [1] &quot;Engineering&quot; &quot;Other&quot;</code></pre>
+<pre class="r"><code>view(college_grad_df)</code></pre>
+<p><em>Your explanation</em> Baseline will be engineering as E comes
+before O. Average median for engineering majors is 57383 which is the
+intercept. and the slope would be -20702. —</p>
 <div id="data-set-beauty-in-the-classroom" class="section level2">
 <h2>Data set: Beauty in the classroom</h2>
 <pre class="r"><code>evals&lt;-read.csv(&quot;data/evals.csv&quot;, row.names=1)</code></pre>
