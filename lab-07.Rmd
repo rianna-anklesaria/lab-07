@@ -73,10 +73,29 @@ The magnitude is how closely the dots are clustered around the line of best fit.
 # Exercise 3: Fit and interpret a numerical predictor
 
 ```{r}
-#your code here
+share_fit <- lm(median ~ sharewomen,
+                data = college_grad_df)
+summary(share_fit)
+coef(share_fit)
+
+share_aug <- augment(share_fit)
+ggplot(share_aug,
+       aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0,
+             linetype = "dashed",
+             colour = "red") +
+  labs(
+    title = "Residuals vs Predicted Values",
+    x = "Predicted Median Earnings",
+    y = "Residuals"
+  ) +
+  theme_minimal()
 ```
 
 *Your explanation*
+a. Interpret is when predicted earnings when share of women is 0. Predicted Median equals 56093 - 30670 share of women.
+b.The residual plot is used to assess whether a linear model is appropriate. If the residuals are randomly distributed around zero without a clear pattern, the linear model is reasonably appropriate. Any systematic pattern would suggest that the model does not fully capture the relationship.
 
 # Exercise 4: Consider a categorical variable instead 
 
