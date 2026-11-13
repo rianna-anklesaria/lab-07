@@ -26,19 +26,49 @@ glimpse(college_grad_df)
 # Exercise 1: Exploratory Data Analysis
 
 ```{r}
-#your code here
+ggplot(college_grad_df, aes(x = median)) +
+  geom_histogram(binwidth = 2500, colour = "black",
+                 fill = "skyblue") +
+  labs(
+    title = "Distribution of Median Earnings",
+    x = "Median Earnings ($)",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+college_grad_df %>%
+  group_by(major_category) %>%
+  summarise(
+    median_earnings = median(median, na.rm = TRUE),
+    mean_earnings = mean(median, na.rm = TRUE)
+  ) %>%
+  arrange(desc(median_earnings))
 ```
 
 *Your explanation*
-
-
+The distribution of median earnings is expected to be positively skewed which means it mainly lies on the left side of the graph. This means that most college majors have median earnings concentrated around the lower-to-middle part of the distribution, while a smaller number of majors have considerably higher median earnings.
+From the Table we can see that the major catergory with highest median earnings is engineers.
 # Exercise 2: Exploring relationship
 
 ```{r}
-#your code here
+ggplot(college_grad_df,
+       aes(x = sharewomen, y = median)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE,
+              colour = "red") +
+  labs(
+    title = "Median Earnings vs Share of Women",
+    x = "Share of Women",
+    y = "Median Earnings ($)"
+  ) +
+  theme_minimal()
 ```
 
 *Your explanation*
+a. The variables are median which is the response variable and the second variable is sharewomen which is the explanatory variable.
+
+b. The scatterplot allows us to examine the relationship between the proportion of women in a major and its median earnings. In the graph we can see a clear direction: downward sloping regression line which would indicate a negative association, suggesting that majors with a higher proportion of women tend to have lower median earnings.
+The magnitude is how closely the dots are clustered around the line of best fit.
 
 # Exercise 3: Fit and interpret a numerical predictor
 
